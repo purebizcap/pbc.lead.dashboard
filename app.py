@@ -6,7 +6,7 @@ from datetime import datetime
 st.set_page_config(page_title="Pure Business Capital Pro AI Dashboard", layout="wide", page_icon="💰")
 
 # ================== CONFIG ==================
-PASSWORD = "PBCPro2026"  # ← CHANGE THIS TO YOUR OWN PASSWORD
+PASSWORD = "PBCPro2026"          # ← CHANGE THIS TO YOUR OWN SECURE PASSWORD
 PRO_LINK = "https://whop.com/purebizcap/pro-ai-dashboard/"
 
 PRODUCTS = {
@@ -46,7 +46,7 @@ if "authenticated" not in st.session_state:
 if not st.session_state.authenticated:
     st.title("🔒 Pure Business Capital Pro AI Lead Mastery Dashboard")
     st.markdown("### Pro Member Only – $97/month")
-    st.write("Unlock CRM, lead tools, scripts, role-play, TikTok generator, and more.")
+    st.write("Unlock the full suite: CRM, lead tools, scripts, role-play, TikTok content, and ROI tracking.")
     
     password_input = st.text_input("Enter your Pro Password", type="password")
     col1, col2 = st.columns([1, 2])
@@ -56,17 +56,18 @@ if not st.session_state.authenticated:
                 st.session_state.authenticated = True
                 st.rerun()
             else:
-                st.error("Incorrect password.")
+                st.error("Incorrect password. Please check your Whop purchase email.")
     with col2:
-        st.link_button("🚀 Get Pro Access – $97/month (2-day trial)", PRO_LINK, type="secondary")
-    st.caption("Purchased? Check your Whop confirmation email for the password.")
+        st.link_button("🚀 Get Pro Access – $97/month (includes 2-day trial)", PRO_LINK, type="secondary")
+    
+    st.caption("Need help? Reply to your Whop confirmation email.")
     st.stop()
 
 # ================== MAIN DASHBOARD ==================
 st.success("✅ Unlocked – Welcome to the Pro AI Dashboard!")
 
-st.markdown("### Lead Mastery Dashboard – Your 24/7 Coach")
-st.caption("Pro Member Only • Real Estate Investors & Finance Pros")
+st.markdown("### Lead Mastery Dashboard – Your 24/7 Coach for Real Estate & Finance Pros")
+st.caption("Pro Member Only • Pure Business Capital")
 
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", [
@@ -83,32 +84,27 @@ page = st.sidebar.radio("Go to", [
 
 # HOME
 if page == "🏠 Home":
-    st.write("Welcome back! Use the tools on the left to generate leads and close more deals.")
+    st.write("Welcome! This is your private Pro dashboard. Use the tools on the left to generate leads and scale faster.")
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Leads This Week", "18", "↑ 5")
-    with col2:
-        st.metric("Avg. Reply Rate", "22%", "↑ 4%")
-    with col3:
-        st.metric("Projected Revenue", "$12,450", "↑ $2,300")
+    with col1: st.metric("Leads This Week", "18", "↑ 5")
+    with col2: st.metric("Avg Reply Rate", "22%", "↑ 4%")
+    with col3: st.metric("Projected Revenue", "$12,450", "↑ $2,300")
 
 # LEAD GENERATION
 elif page == "🔍 Lead Generation":
     st.header("🔍 Lead Generation Coach")
-    st.write("Target audience: Real estate investors, finance professionals, remote opportunity seekers.")
-    
+    st.write("Target: Real estate investors, finance professionals, remote opportunity seekers.")
     tab1, tab2 = st.tabs(["LinkedIn Search Strings", "Personalized Message Generator"])
     with tab1:
-        st.subheader("Copy & Paste into LinkedIn Sales Navigator")
+        st.subheader("Ready-to-use LinkedIn Searches")
         st.code("""Current title: ("Real Estate Investor" OR CFO OR Treasurer OR "Business Owner") 
-Keywords: ("hard money" OR "private capital" OR "shelf corporation" OR "alternative financing" OR "remote agent")
+Keywords: ("hard money" OR "shelf corporation" OR "private capital" OR "alternative financing")
 Company headcount: 1-200""", language=None)
-    
     with tab2:
-        profile = st.text_area("Paste LinkedIn profile summary or name + title")
+        profile = st.text_area("Paste profile summary or name + title")
         if st.button("Generate Personalized Message"):
-            st.success("Here's a strong first message:")
-            st.write(f"Hi [Name], noticed you're active in real estate investing. Many in your position are using shelf corporations to move faster on deals. Our Shelf Corporation Mastery program ($347) has helped investors like you launch quickly... Would you be open to a quick chat?")
+            st.success("Suggested LinkedIn DM / Email:")
+            st.write("Hi [Name], saw you're active in real estate investing. Many investors in your position are using aged shelf corporations to move faster on deals. Our Shelf Corporation Mastery program ($347) has helped dozens close deals quicker... Open to a quick 10-min chat?")
 
 # MY CRM
 elif page == "📋 My CRM":
@@ -119,49 +115,51 @@ elif page == "📋 My CRM":
     st.session_state.crm_df = edited_df
     if st.button("Export as CSV"):
         csv = edited_df.to_csv(index=False)
-        st.download_button("Download CSV", csv, "leads.csv", "text/csv")
+        st.download_button("Download CSV", csv, "my_leads.csv", "text/csv")
 
 # SCRIPTS LIBRARY
 elif page == "📝 Scripts Library":
     st.header("📝 Scripts & Outreach Library")
-    script_type = st.selectbox("Select script type", ["LinkedIn DM", "Email", "Cold Call"])
+    script_type = st.selectbox("Select type", ["LinkedIn DM", "Email Follow-up", "Cold Call Script"])
     if st.button("Generate Script"):
         if script_type == "LinkedIn DM":
-            st.write("Hi [Name], saw you're building in real estate. Our Shelf Corporation Mastery program at $347 helps investors structure deals faster...")
+            st.write("**Version A:** Hi [Name], noticed your work in real estate. Our $347 Shelf Corporation Mastery program helps investors launch clean entities fast...")
+            st.write("**Version B (softer):** Hi [Name], quick question — are you still looking for faster ways to structure deals?")
 
 # ROLE-PLAY SIMULATOR
 elif page == "🎤 Role-Play Simulator":
     st.header("🎤 Sales Call Role-Play Simulator")
-    st.write("Practice closing shelf corp or training sales calls.")
+    st.write("Practice closing Shelf Corp Mastery or Remote Agent calls.")
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
     for msg in st.session_state.chat_history:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
-    user_input = st.chat_input("Type what you'd say to the prospect...")
+    user_input = st.chat_input("Type what you would say...")
     if user_input:
         st.session_state.chat_history.append({"role": "user", "content": user_input})
         reply = random.choice([
-            "Great question! The $347 Shelf Corporation Mastery program includes templates and live support.",
-            "Many real estate investors are using this to close deals 2-3x faster."
+            "Excellent question. The $347 Shelf Corporation Mastery includes step-by-step templates and support.",
+            "Many real estate investors we've helped are now closing deals 2-3x faster."
         ])
         st.session_state.chat_history.append({"role": "assistant", "content": reply})
 
 # TIKTOK SCRIPT GENERATOR
 elif page == "📱 TikTok Script Generator":
-    st.header("📱 TikTok Video Script Generator")
-    topic = st.text_input("Video topic", "How to get funding fast using shelf corporations")
-    if st.button("Generate 3 Scripts"):
-        st.subheader("Script 1 (15-second hook)")
-        st.write("Hook: 'Banks said no? Watch this...'")
-        st.write("Body: 'With our Shelf Corporation Mastery at only $347, you can have a clean aged entity in days...'")
+    st.header("📱 TikTok Script Generator")
+    topic = st.text_input("Video topic (e.g. shelf corporations, funding fast)", "How to get funding fast with shelf corporations")
+    length = st.selectbox("Video length", ["15 seconds", "30 seconds", "60 seconds"])
+    if st.button("Generate Scripts"):
+        st.subheader(f"Script for {length} video")
+        st.write("**Hook (first 3 seconds):** 'Banks said NO again? Watch this...'")
+        st.write("**Full Script:** With our Shelf Corporation Mastery program at just $347, you can have a clean, aged entity ready to receive funding in days...")
 
 # ROI & GOAL TRACKER
 elif page == "📈 ROI & Goal Tracker":
     st.header("📈 ROI Calculator & Weekly Goals")
-    leads_closed = st.number_input("Leads closed this month", 0, 100, 8)
+    leads_closed = st.number_input("Leads closed this month", 0, 200, 8)
     conv_rate = st.slider("Conversion rate (%)", 0, 100, 22)
-    avg_value = st.number_input("Average deal value ($)", 100, 50000, 4500)
+    avg_value = st.number_input("Average deal value ($)", 100, 100000, 4500)
     revenue = leads_closed * (conv_rate / 100) * avg_value
     st.metric("Projected Monthly Revenue", f"${revenue:,.0f}")
 
@@ -169,6 +167,7 @@ elif page == "📈 ROI & Goal Tracker":
     goal = st.number_input("Weekly lead goal", 0, 100, 20)
     current = st.number_input("Leads added this week", 0, 100, 11)
     st.progress(current / goal if goal > 0 else 0)
+    st.write(f"{current}/{goal} leads — {int((current/goal)*100) if goal > 0 else 0}% on track")
 
 # UPSELLS
 elif page == "🚀 Upsells & Products":
@@ -177,12 +176,16 @@ elif page == "🚀 Upsells & Products":
         with st.expander(f"{name} — {info['price']}"):
             st.write(info["desc"])
             st.link_button("View Product", info["link"])
+    st.divider()
+    st.subheader("💎 You are on the Pro AI Dashboard")
+    st.write("Thank you for your $97/month Pro membership!")
+    st.link_button("Manage Subscription", PRO_LINK)
 
 # COMPLIANCE
 elif page == "✅ Compliance":
     st.header("✅ Compliance Checklist")
-    items = ["Use only public profile data", "Always personalize", "Never automate sending with bots", "Track reply rates", "Focus on value first"]
+    items = ["Only use public profile data", "Always personalize every message", "Never use bots or scraping tools", "Provide real value first", "Track reply rates monthly"]
     for item in items:
         st.checkbox(item, value=True)
 
-st.sidebar.caption("Pro AI Dashboard • Pure Business Capital")
+st.sidebar.caption("Pro AI Dashboard • Pure Business Capital • 2026")
