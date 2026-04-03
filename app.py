@@ -1,46 +1,63 @@
 import streamlit as st
 import pandas as pd
-import random
 
 st.set_page_config(page_title="Pure Business Capital Pro AI Dashboard", layout="wide", page_icon="💰")
 
 # ================== CONFIG ==================
-PASSWORD = "PureBCPro2026"   # ← Make sure this matches your new password
+PASSWORD = "PureBCPro2026"   # ← Your current password
 PRO_LINK = "https://whop.com/purebizcap/pro-ai-dashboard/"
 
-PRODUCTS = {
-    "Shelf Corporation Mastery": {"price": "$347", "link": "https://whop.com/purebizcap/shelf-corporation-mastery/", "desc": "Complete training to launch your own aged shelf corporation business."},
-    "Training Access": {"price": "Enroll Now", "link": "https://whop.com/purebizcap/training-access-a6/", "desc": "Full access to Hard Money Mastery, Private Capital, and more."},
-    "Shelf Corporation Reseller Program": {"price": "Join Now", "link": "https://whop.com/purebizcap/shelf-corporation-reseller/", "desc": "Resell shelf corporations + earn commissions."},
-    "Careers / Remote Agent Program": {"price": "Apply Free", "link": "https://purebusinesscapital.com/careers", "desc": "Remote, no-experience-needed opportunities."}
-}
-
-# Header
+# Header with logo
 st.markdown("<h1 style='text-align: center; color: #FFFFFF;'>PURE BUSINESS CAPITAL</h1>", unsafe_allow_html=True)
 
-# Password Gate
+try:
+    st.image("logo.png", use_column_width=True)
+except:
+    st.caption("💰 Pure Business Capital")
+
+# Password Gate - Nicer Version
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
     st.title("🔒 Pure Business Capital Pro AI Lead Mastery Dashboard")
-    st.markdown("### Pro Member Only – $97/month")
-    st.write("Unlock the full dashboard with CRM, lead tools, scripts, role-play, TikTok generator, and ROI tracking.")
     
-    password_input = st.text_input("Enter your Pro Password", type="password")
-    if st.button("Unlock Dashboard", type="primary"):
-        if password_input == PASSWORD:
-            st.session_state.authenticated = True
-            st.rerun()
-        else:
-            st.error("Incorrect password.")
-    st.link_button("Get Pro Access – $97/month", PRO_LINK)
+    st.markdown("""
+    ### Welcome to the Pro Version
+    
+    This exclusive dashboard is for **$97/month Pro members** only.
+    
+    Inside you'll find:
+    - Full CRM for managing leads
+    - AI-powered LinkedIn & TikTok lead tools
+    - Ready-to-use scripts and outreach templates
+    - Sales call role-play simulator
+    - TikTok video script generator
+    - ROI calculator & weekly goal tracker
+    """)
+    
+    st.info("**Purchased the Pro plan?** Enter your password below to unlock the full dashboard.")
+    
+    password_input = st.text_input("🔑 Enter Pro Password", type="password", placeholder="Enter password here")
+    
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("🔓 Unlock Dashboard", type="primary", use_container_width=True):
+            if password_input == PASSWORD:
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("❌ Incorrect password. Please check your Whop purchase email.")
+    with col2:
+        st.link_button("🚀 Get Pro Access – $97/month", PRO_LINK, use_container_width=True)
+    
+    st.caption("Need help? Check your Whop confirmation or reply to support.")
     st.stop()
 
-# ================== FULL DASHBOARD LOADS HERE ==================
+# ================== MAIN DASHBOARD ==================
 st.success("✅ Unlocked – Welcome to the Pro AI Dashboard!")
 
-st.markdown("### Lead Mastery Dashboard – Your 24/7 Coach")
+st.markdown("### Lead Mastery Dashboard – Your 24/7 Coach for Real Estate & Finance Pros")
 st.caption("Pro Member Only • Pure Business Capital")
 
 st.sidebar.title("Navigation")
@@ -58,7 +75,7 @@ page = st.sidebar.radio("Go to", [
 
 # HOME
 if page == "🏠 Home":
-    st.write("Welcome to your Pro dashboard! Use the sidebar to access all tools.")
+    st.write("Welcome to your Pro dashboard! Use the tools on the left to generate leads and scale your business.")
     col1, col2, col3 = st.columns(3)
     with col1: st.metric("Leads This Week", "18", "↑ 5")
     with col2: st.metric("Avg Reply Rate", "22%", "↑ 4%")
@@ -75,8 +92,8 @@ elif page == "📋 My CRM":
         csv = edited_df.to_csv(index=False)
         st.download_button("Download CSV", csv, "my_leads.csv", "text/csv")
 
-# Simple placeholders for other tabs (we can expand them later)
+# Placeholder for other tabs
 else:
-    st.write(f"**{page}** tab is active. This section is ready for full features.")
+    st.write(f"**{page}** is ready. We can expand this tab with full features next.")
 
-st.sidebar.caption("Pro AI Dashboard • Pure Business Capital")
+st.sidebar.caption("Pro AI Dashboard • Pure Business Capital • 2026")
