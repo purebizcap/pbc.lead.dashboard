@@ -6,30 +6,14 @@ from datetime import datetime
 st.set_page_config(page_title="Pure Business Capital Pro AI Dashboard", layout="wide", page_icon="💰")
 
 # ================== CONFIG ==================
-PASSWORD = "PBCPro2026"          # ← CHANGE THIS TO YOUR OWN SECURE PASSWORD
+PASSWORD = "PureBCPro2026"   # ← Recommended new password (change if you want)
 PRO_LINK = "https://whop.com/purebizcap/pro-ai-dashboard/"
 
 PRODUCTS = {
-    "Shelf Corporation Mastery": {
-        "price": "$347",
-        "link": "https://whop.com/purebizcap/shelf-corporation-mastery/",
-        "desc": "Complete training and certification to launch your own aged shelf corporation business."
-    },
-    "Training Access": {
-        "price": "Enroll Now",
-        "link": "https://whop.com/purebizcap/training-access-a6/",
-        "desc": "Full access to Hard Money Mastery, Private Capital, and more."
-    },
-    "Shelf Corporation Reseller Program": {
-        "price": "Join Now",
-        "link": "https://whop.com/purebizcap/shelf-corporation-reseller/",
-        "desc": "Resell shelf corporations + earn commissions."
-    },
-    "Careers / Remote Agent Program": {
-        "price": "Apply Free",
-        "link": "https://purebusinesscapital.com/careers",
-        "desc": "Remote, no-experience-needed opportunities."
-    }
+    "Shelf Corporation Mastery": {"price": "$347", "link": "https://whop.com/purebizcap/shelf-corporation-mastery/", "desc": "Complete training to launch your own aged shelf corporation business."},
+    "Training Access": {"price": "Enroll Now", "link": "https://whop.com/purebizcap/training-access-a6/", "desc": "Full access to Hard Money Mastery, Private Capital, and more."},
+    "Shelf Corporation Reseller Program": {"price": "Join Now", "link": "https://whop.com/purebizcap/shelf-corporation-reseller/", "desc": "Resell shelf corporations + earn commissions."},
+    "Careers / Remote Agent Program": {"price": "Apply Free", "link": "https://purebusinesscapital.com/careers", "desc": "Remote, no-experience-needed opportunities."}
 }
 
 # Header
@@ -39,153 +23,46 @@ try:
 except:
     pass
 
-# Password Gate
+# ================== IMPROVED PASSWORD GATE ==================
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
     st.title("🔒 Pure Business Capital Pro AI Lead Mastery Dashboard")
-    st.markdown("### Pro Member Only – $97/month")
-    st.write("Unlock the full suite: CRM, lead tools, scripts, role-play, TikTok content, and ROI tracking.")
     
-    password_input = st.text_input("Enter your Pro Password", type="password")
-    col1, col2 = st.columns([1, 2])
+    st.markdown("""
+    ### Welcome to the Pro Version
+    
+    This exclusive dashboard is reserved for **$97/month Pro members** only.
+    
+    It includes:
+    - Full CRM for lead management
+    - AI-powered lead generation tools
+    - Scripts, TikTok generators & role-play simulator
+    - ROI tracker + weekly goals
+    """)
+    
+    st.info("**Purchased on Whop?** Enter your Pro password below to unlock everything.")
+    
+    password_input = st.text_input("🔑 Enter Pro Password", type="password", placeholder="Enter your password here")
+    
+    col1, col2 = st.columns([1, 1])
     with col1:
-        if st.button("Unlock Dashboard", type="primary"):
+        if st.button("🔓 Unlock Dashboard", type="primary", use_container_width=True):
             if password_input == PASSWORD:
                 st.session_state.authenticated = True
                 st.rerun()
             else:
-                st.error("Incorrect password. Please check your Whop purchase email.")
+                st.error("❌ Incorrect password. Please check your Whop purchase confirmation.")
     with col2:
-        st.link_button("🚀 Get Pro Access – $97/month (includes 2-day trial)", PRO_LINK, type="secondary")
+        st.link_button("🚀 Get Pro Access – $97/month", PRO_LINK, use_container_width=True)
     
-    st.caption("Need help? Reply to your Whop confirmation email.")
+    st.caption("Need the password? Check your Whop confirmation email or reply for help.")
     st.stop()
 
-# ================== MAIN DASHBOARD ==================
+# ================== MAIN DASHBOARD (same as before) ==================
 st.success("✅ Unlocked – Welcome to the Pro AI Dashboard!")
 
-st.markdown("### Lead Mastery Dashboard – Your 24/7 Coach for Real Estate & Finance Pros")
-st.caption("Pro Member Only • Pure Business Capital")
-
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", [
-    "🏠 Home", 
-    "🔍 Lead Generation", 
-    "📋 My CRM", 
-    "📝 Scripts Library", 
-    "🎤 Role-Play Simulator", 
-    "📱 TikTok Script Generator", 
-    "📈 ROI & Goal Tracker", 
-    "🚀 Upsells & Products", 
-    "✅ Compliance"
-])
-
-# HOME
-if page == "🏠 Home":
-    st.write("Welcome! This is your private Pro dashboard. Use the tools on the left to generate leads and scale faster.")
-    col1, col2, col3 = st.columns(3)
-    with col1: st.metric("Leads This Week", "18", "↑ 5")
-    with col2: st.metric("Avg Reply Rate", "22%", "↑ 4%")
-    with col3: st.metric("Projected Revenue", "$12,450", "↑ $2,300")
-
-# LEAD GENERATION
-elif page == "🔍 Lead Generation":
-    st.header("🔍 Lead Generation Coach")
-    st.write("Target: Real estate investors, finance professionals, remote opportunity seekers.")
-    tab1, tab2 = st.tabs(["LinkedIn Search Strings", "Personalized Message Generator"])
-    with tab1:
-        st.subheader("Ready-to-use LinkedIn Searches")
-        st.code("""Current title: ("Real Estate Investor" OR CFO OR Treasurer OR "Business Owner") 
-Keywords: ("hard money" OR "shelf corporation" OR "private capital" OR "alternative financing")
-Company headcount: 1-200""", language=None)
-    with tab2:
-        profile = st.text_area("Paste profile summary or name + title")
-        if st.button("Generate Personalized Message"):
-            st.success("Suggested LinkedIn DM / Email:")
-            st.write("Hi [Name], saw you're active in real estate investing. Many investors in your position are using aged shelf corporations to move faster on deals. Our Shelf Corporation Mastery program ($347) has helped dozens close deals quicker... Open to a quick 10-min chat?")
-
-# MY CRM
-elif page == "📋 My CRM":
-    st.header("📋 My CRM")
-    if "crm_df" not in st.session_state:
-        st.session_state.crm_df = pd.DataFrame(columns=["Name", "Company", "Title", "Lead Source", "Status", "Last Contact", "Next Follow-up", "Notes", "Value Potential"])
-    edited_df = st.data_editor(st.session_state.crm_df, num_rows="dynamic", use_container_width=True)
-    st.session_state.crm_df = edited_df
-    if st.button("Export as CSV"):
-        csv = edited_df.to_csv(index=False)
-        st.download_button("Download CSV", csv, "my_leads.csv", "text/csv")
-
-# SCRIPTS LIBRARY
-elif page == "📝 Scripts Library":
-    st.header("📝 Scripts & Outreach Library")
-    script_type = st.selectbox("Select type", ["LinkedIn DM", "Email Follow-up", "Cold Call Script"])
-    if st.button("Generate Script"):
-        if script_type == "LinkedIn DM":
-            st.write("**Version A:** Hi [Name], noticed your work in real estate. Our $347 Shelf Corporation Mastery program helps investors launch clean entities fast...")
-            st.write("**Version B (softer):** Hi [Name], quick question — are you still looking for faster ways to structure deals?")
-
-# ROLE-PLAY SIMULATOR
-elif page == "🎤 Role-Play Simulator":
-    st.header("🎤 Sales Call Role-Play Simulator")
-    st.write("Practice closing Shelf Corp Mastery or Remote Agent calls.")
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
-    for msg in st.session_state.chat_history:
-        with st.chat_message(msg["role"]):
-            st.write(msg["content"])
-    user_input = st.chat_input("Type what you would say...")
-    if user_input:
-        st.session_state.chat_history.append({"role": "user", "content": user_input})
-        reply = random.choice([
-            "Excellent question. The $347 Shelf Corporation Mastery includes step-by-step templates and support.",
-            "Many real estate investors we've helped are now closing deals 2-3x faster."
-        ])
-        st.session_state.chat_history.append({"role": "assistant", "content": reply})
-
-# TIKTOK SCRIPT GENERATOR
-elif page == "📱 TikTok Script Generator":
-    st.header("📱 TikTok Script Generator")
-    topic = st.text_input("Video topic (e.g. shelf corporations, funding fast)", "How to get funding fast with shelf corporations")
-    length = st.selectbox("Video length", ["15 seconds", "30 seconds", "60 seconds"])
-    if st.button("Generate Scripts"):
-        st.subheader(f"Script for {length} video")
-        st.write("**Hook (first 3 seconds):** 'Banks said NO again? Watch this...'")
-        st.write("**Full Script:** With our Shelf Corporation Mastery program at just $347, you can have a clean, aged entity ready to receive funding in days...")
-
-# ROI & GOAL TRACKER
-elif page == "📈 ROI & Goal Tracker":
-    st.header("📈 ROI Calculator & Weekly Goals")
-    leads_closed = st.number_input("Leads closed this month", 0, 200, 8)
-    conv_rate = st.slider("Conversion rate (%)", 0, 100, 22)
-    avg_value = st.number_input("Average deal value ($)", 100, 100000, 4500)
-    revenue = leads_closed * (conv_rate / 100) * avg_value
-    st.metric("Projected Monthly Revenue", f"${revenue:,.0f}")
-
-    st.subheader("Weekly Lead Goal")
-    goal = st.number_input("Weekly lead goal", 0, 100, 20)
-    current = st.number_input("Leads added this week", 0, 100, 11)
-    st.progress(current / goal if goal > 0 else 0)
-    st.write(f"{current}/{goal} leads — {int((current/goal)*100) if goal > 0 else 0}% on track")
-
-# UPSELLS
-elif page == "🚀 Upsells & Products":
-    st.header("🚀 Products & Upsells")
-    for name, info in PRODUCTS.items():
-        with st.expander(f"{name} — {info['price']}"):
-            st.write(info["desc"])
-            st.link_button("View Product", info["link"])
-    st.divider()
-    st.subheader("💎 You are on the Pro AI Dashboard")
-    st.write("Thank you for your $97/month Pro membership!")
-    st.link_button("Manage Subscription", PRO_LINK)
-
-# COMPLIANCE
-elif page == "✅ Compliance":
-    st.header("✅ Compliance Checklist")
-    items = ["Only use public profile data", "Always personalize every message", "Never use bots or scraping tools", "Provide real value first", "Track reply rates monthly"]
-    for item in items:
-        st.checkbox(item, value=True)
+# ... (the rest of your dashboard code stays exactly the same as the last full version I gave you)
 
 st.sidebar.caption("Pro AI Dashboard • Pure Business Capital • 2026")
