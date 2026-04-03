@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import random
 
 st.set_page_config(page_title="Pure Business Capital Pro AI Dashboard", layout="wide", page_icon="💰")
 
@@ -7,15 +8,21 @@ st.set_page_config(page_title="Pure Business Capital Pro AI Dashboard", layout="
 PASSWORD = "PureBCPro2026"   # ← Your current password
 PRO_LINK = "https://whop.com/purebizcap/pro-ai-dashboard/"
 
+PRODUCTS = {
+    "Shelf Corporation Mastery": {"price": "$347", "link": "https://whop.com/purebizcap/shelf-corporation-mastery/", "desc": "Complete training to launch your own aged shelf corporation business."},
+    "Training Access": {"price": "Enroll Now", "link": "https://whop.com/purebizcap/training-access-a6/", "desc": "Full access to Hard Money Mastery, Private Capital, and more."},
+    "Shelf Corporation Reseller Program": {"price": "Join Now", "link": "https://whop.com/purebizcap/shelf-corporation-reseller/", "desc": "Resell shelf corporations + earn commissions."},
+    "Careers / Remote Agent Program": {"price": "Apply Free", "link": "https://purebusinesscapital.com/careers", "desc": "Remote, no-experience-needed opportunities."}
+}
+
 # Header with logo
 st.markdown("<h1 style='text-align: center; color: #FFFFFF;'>PURE BUSINESS CAPITAL</h1>", unsafe_allow_html=True)
-
 try:
     st.image("logo.png", use_column_width=True)
 except:
     st.caption("💰 Pure Business Capital")
 
-# Password Gate - Nicer Version
+# ================== PASSWORD GATE ==================
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -36,7 +43,7 @@ if not st.session_state.authenticated:
     - ROI calculator & weekly goal tracker
     """)
     
-    st.info("**Purchased the Pro plan?** Enter your password below to unlock the full dashboard.")
+    st.info("**Purchased the Pro plan?** Enter your password below to unlock everything.")
     
     password_input = st.text_input("🔑 Enter Pro Password", type="password", placeholder="Enter password here")
     
@@ -81,6 +88,22 @@ if page == "🏠 Home":
     with col2: st.metric("Avg Reply Rate", "22%", "↑ 4%")
     with col3: st.metric("Projected Revenue", "$12,450", "↑ $2,300")
 
+# LEAD GENERATION
+elif page == "🔍 Lead Generation":
+    st.header("🔍 Lead Generation Coach")
+    st.write("Target: Real estate investors, finance professionals, remote opportunity seekers.")
+    tab1, tab2 = st.tabs(["LinkedIn Search Strings", "Personalized Message Generator"])
+    with tab1:
+        st.subheader("Ready-to-use LinkedIn Searches")
+        st.code("""Current title: ("Real Estate Investor" OR CFO OR Treasurer OR "Business Owner") 
+Keywords: ("hard money" OR "shelf corporation" OR "private capital" OR "alternative financing")
+Company headcount: 1-200""", language=None)
+    with tab2:
+        profile = st.text_area("Paste profile summary or name + title")
+        if st.button("Generate Personalized Message"):
+            st.success("Suggested Message:")
+            st.write("Hi [Name], saw you're active in real estate investing. Many investors in your position are using aged shelf corporations to move faster on deals. Our Shelf Corporation Mastery program ($347) has helped dozens close deals quicker... Open to a quick 10-min chat?")
+
 # MY CRM
 elif page == "📋 My CRM":
     st.header("📋 My CRM")
@@ -92,8 +115,75 @@ elif page == "📋 My CRM":
         csv = edited_df.to_csv(index=False)
         st.download_button("Download CSV", csv, "my_leads.csv", "text/csv")
 
-# Placeholder for other tabs
-else:
-    st.write(f"**{page}** is ready. We can expand this tab with full features next.")
+# SCRIPTS LIBRARY
+elif page == "📝 Scripts Library":
+    st.header("📝 Scripts & Outreach Library")
+    script_type = st.selectbox("Select script type", ["LinkedIn DM", "Email Follow-up", "Cold Call Script"])
+    if st.button("Generate Script"):
+        if script_type == "LinkedIn DM":
+            st.write("**Version A:** Hi [Name], noticed your work in real estate. Our $347 Shelf Corporation Mastery helps investors structure deals faster...")
+            st.write("**Version B:** Hi [Name], quick question — are you still looking for faster ways to structure your real estate deals?")
+
+# ROLE-PLAY SIMULATOR
+elif page == "🎤 Role-Play Simulator":
+    st.header("🎤 Sales Call Role-Play Simulator")
+    st.write("Practice closing Shelf Corp or training sales calls.")
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+    for msg in st.session_state.chat_history:
+        with st.chat_message(msg["role"]):
+            st.write(msg["content"])
+    user_input = st.chat_input("Type what you would say to the prospect...")
+    if user_input:
+        st.session_state.chat_history.append({"role": "user", "content": user_input})
+        reply = random.choice([
+            "Great question! The $347 Shelf Corporation Mastery includes templates and live support.",
+            "Many real estate investors we've helped are now closing deals 2-3x faster."
+        ])
+        st.session_state.chat_history.append({"role": "assistant", "content": reply})
+
+# TIKTOK SCRIPT GENERATOR
+elif page == "📱 TikTok Script Generator":
+    st.header("📱 TikTok Video Script Generator")
+    topic = st.text_input("Video topic", "How to get funding fast with shelf corporations")
+    length = st.selectbox("Video length", ["15 seconds", "30 seconds", "60 seconds"])
+    if st.button("Generate Scripts"):
+        st.subheader(f"{length} Script")
+        st.write("**Hook:** 'Banks said no again? Watch this...'")
+        st.write("**Body:** With our Shelf Corporation Mastery at just $347, you can have a clean aged entity ready to receive funding in days...")
+
+# ROI & GOAL TRACKER
+elif page == "📈 ROI & Goal Tracker":
+    st.header("📈 ROI Calculator & Weekly Goals")
+    leads_closed = st.number_input("Leads closed this month", 0, 200, 8)
+    conv_rate = st.slider("Conversion rate (%)", 0, 100, 22)
+    avg_value = st.number_input("Average deal value ($)", 100, 100000, 4500)
+    revenue = leads_closed * (conv_rate / 100) * avg_value
+    st.metric("Projected Monthly Revenue", f"${revenue:,.0f}")
+
+    st.subheader("Weekly Lead Goal")
+    goal = st.number_input("Weekly lead goal", 0, 100, 20)
+    current = st.number_input("Leads added this week", 0, 100, 11)
+    st.progress(current / goal if goal > 0 else 0)
+    st.write(f"{current}/{goal} leads — {int((current/goal)*100) if goal > 0 else 0}% on track")
+
+# UPSELLS
+elif page == "🚀 Upsells & Products":
+    st.header("🚀 Products & Upsells")
+    for name, info in PRODUCTS.items():
+        with st.expander(f"{name} — {info['price']}"):
+            st.write(info["desc"])
+            st.link_button("View Product", info["link"])
+    st.divider()
+    st.subheader("💎 You are on the Pro AI Dashboard")
+    st.write("Thank you for your $97/month Pro membership!")
+    st.link_button("Manage Subscription", PRO_LINK)
+
+# COMPLIANCE
+elif page == "✅ Compliance":
+    st.header("✅ Compliance Checklist")
+    items = ["Only use public profile data", "Always personalize every message", "Never use bots or scraping tools", "Provide real value first", "Track reply rates monthly"]
+    for item in items:
+        st.checkbox(item, value=True)
 
 st.sidebar.caption("Pro AI Dashboard • Pure Business Capital • 2026")
